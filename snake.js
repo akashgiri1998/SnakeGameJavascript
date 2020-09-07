@@ -128,6 +128,7 @@ function draw(){
     //game over
     const gameover=new Image();
     gameover.src="./img/download.png";  
+    
         if ( snakeX>17*box || snakeX<box || snakeY<3*box|| snakeY>17*box || collision(newHead,snake)){
             clearInterval(game);
             ctx.drawImage(gameover,200,200);
