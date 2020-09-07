@@ -10,6 +10,26 @@ ground.src="./img/ground.png";
 
 const foodImg=new Image();
 foodImg.src="./img/food.png";
+
+//audio
+const dead=new Audio();
+dead.src="./audio/dead.mp3";
+
+const down=new Audio();
+down.src="./audio/down.mp3";
+
+const eat=new Audio();
+eat.src="./audio/eat.mp3";
+
+const left=new Audio();
+left.src="./audio/left.mp3";
+
+const right=new Audio();
+right.src="./audio/right.mp3";
+
+const up=new Audio();
+up.src="./audio/up.mp3";
+
 //snake location
 snake=[];
 snake[0]= {
@@ -35,29 +55,35 @@ document.addEventListener("keydown",direction);
 function direction(event){
     let key=event.keyCode;
     if (key=='37' && d!='RIGHT'){
+        right.play();
         d='LEFT'
+
     }
-    else if (key=='38' && d!='DOWN'){
+    else if (key=='38' && d!='DOWN'){7
+        up.play();
         d="UP"
     }
     else if (key=='39' && d!='LEFT'){
+        right.play();
         d='RIGHT'
     }
     else if (key=='40' && d!='UP'){
+        down.play();
         d='DOWN'
     } 
 }
 
 //check collision
-/* function collision(head,array){
+function collision(head,array){
     for (let i=0 ; i< array.length ; i++){
         if (head.x == array[i].x && head.y == array[i].y)
         {
+            
             return true;
         }
     }
     return false;
-} */
+} 
 
 function draw(){
     ctx.drawImage(ground,0,0);
@@ -84,6 +110,7 @@ function draw(){
     //get food
     if (snakeX==food.x && snakeY==food.y){
         score++
+        eat.play();
         food={
             x:Math.floor(Math.random()*17+1)*box,
             y:Math.floor(Math.random()*15+3)*box
@@ -93,15 +120,17 @@ function draw(){
         snake.pop()
     }
 
-    //game over
-    if ( snakeX>17*box || snakeX<box || snakeY<3*box|| snakeY>17*box){
-        clearInterval(game);
-    }
-
     let newHead={
         x:snakeX,
         y:snakeY
     }
+
+    //game over
+    if ( snakeX>17*box || snakeX<box || snakeY<3*box|| snakeY>17*box || collision(newHead,snake)){
+        clearInterval(game);
+        dead.play();
+    }
+
 
     snake.unshift(newHead);
     
